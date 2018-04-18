@@ -1,13 +1,9 @@
-<<<<<<< HEAD
-# React-Environment
-React and Redux environment
-
-This preBuild Environment of React and Redux.
-You can start your new project without sticking on basic structure.
-Just Use it and start new project.
-
-clone it and execute yarn install command.
-=======
 # chat-app
 basic chat app based on socket.io
->>>>>>> 55126a41e5dc4549632bd3dc14e00287ed6fd31c
+After clone execute command yarn install to install all dependencies.
+To run server execute command yarn server.
+Ensure that Dist folder is present in dir.
+If not run command yarn build.
+
+With running server open URL with IP address and port number 3000 of machine on any device to connect.
+Enjoy.
