@@ -1,1 +1,0 @@
-export const TOGGLE_ON_CLICK = 'TOGGLE_ON_CLICK';

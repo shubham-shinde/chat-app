@@ -1,71 +1,64 @@
-import ReactDOM from 'react-dom';
-import React from 'react';
-import { Provider } from 'react-redux';
-import store from './store';
-import Route from './container/route';
+import './index.css';
+import jq from './jq.slim.js';
+import io from '../node_modules/socket.io-client/dist/socket.io.js'
 
-ReactDOM.render(
-    <Provider store = {store}>
-    <Route />
-    </Provider>,
-    document.getElementById("app")
-);
+var _name;
 
-Array.prototype.equals = function(arr) {
-    if(!arr)
-        return false;
-    if(this.length != arr.length)
-        return false;
-    for(var i = 0; i < this.length; i++) {
-        if(this[i] instanceof Array && arr[i] instanceof Array) {
-            if(!this[i].equals(arr[i]))
-                return false;
-        }
-        if(this[i] instanceof Object && arr[i] instanceof Object) {
-            if(!this[i].equals(arr[i]))
-                return false;
-        }
-        else if (this[i] != arr[i])
-            return false;
+var socket = io.connect(document.URL);
+
+
+jq('#name div').click(() => {
+    if(jq('#name input').val()!=='') {
+        jq('#remove').css({'top':'-100vh'})
+        _name = jq('#name input').val();
+        socket.emit('name', _name);
     }
-    return true;
-};
+});
 
-Object.defineProperty(Array.prototype, "equals", {enumerable: false});
+socket.on('name',(name) => {
+    jq('#message-room').append(
+        `<div class='name' style="text-align:center;color:blue">
+            <p>`+name+` is in chat</p>
+        </div>`
+    );
+})
 
-Object.prototype.equals = function(obj) {
-    for (var prop in this) {
-        if (this.hasOwnProperty(prop) != obj.hasOwnProperty(prop)) {
-            return false;
-        }
-        else if (typeof this[prop] != typeof obj[prop]) {
-            return false;
-        }
+socket.on('message',(message) => {
+    jq('#message-room').append(
+        `<div class='messages'>
+            <p>`+message.name+`</p>
+            `+message.data+`
+        </div>`
+    );
+    jq('#message-room #typing').remove();
+})
+
+socket.on('typing', (name) => {
+    if(jq('#message-room #typing').html()) {
+        jq('#message-room #typing').html(name+` is typing....`)
     }
 
-    for (var prop in obj) {
-        if (this.hasOwnProperty(prop) != obj.hasOwnProperty(prop)) {
-            return false;
-        }
-        else if (typeof this[prop] != typeof obj[prop]) {
-            return false;
-        }
-        if (!this.hasOwnProperty(prop))
-        continue;
-
-        if (this[prop] instanceof Array && obj[prop] instanceof Array) {
-            if (!this[prop].equals(obj[prop]))
-            return false;
-        }
-
-        else if (this[prop] instanceof Object && obj[prop] instanceof Object) {
-            if (!this[prop].equals(obj[prop]))
-            return false;
-        }
-
-        else if (this[prop] != obj[prop]) {
-            return false;
-        }
+    else{
+        jq('#message-room').append(
+            `<div id='typing' style="text-align:center;">
+                <p>`+name+` is typing....</p>
+            </div>`
+        );
     }
-    return true;
-}
+})
+
+jq('#button').click(() => {
+    const message = { name: _name, data: ''}
+    message.data = jq('#input input').val();
+    if(message.data !== undefined && message.data !== null && message.data !== '') {
+        jq('#input input').val('');
+        socket.emit('message', message);
+    }
+})
+
+jq('#input input').keyup(() => {
+    console.log('input changes')
+    socket.emit('typing', _name);
+})
+
+console.log('this is chat app');

@@ -1,5 +1,117 @@
+:root {
+  --background-color : rgb(223, 73, 68);
+  --room-color : rgb(221, 221, 221);
+  --input-and-button-height : 2em;
+}
+
 body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
+  background-color: var(--background-color);
+  overflow: hidden;
+}
+
+#app {
+  margin: 3vh 5vw 3vh 5vw;
+  height: 94vh;
+  width: 90vw;
+}
+
+#room {
+  height: 85vh;
+  width: 90vw;
+  border-radius: 20px;
+  background-color: var(--room-color);
+}
+#room > #message-room {
+  margin: 8%;
+  height: 80vh;
+  overflow: scroll;
+}
+
+.messages {
+  background-color: white;
+  margin-top: 20px;
+  padding: 8px;
+  border-radius: 10px;
+}
+.messages > p {
+  margin: 0;
+  color: blue;
+}
+
+
+#input-room {
+  position: fixed;
+  display: grid;
+  grid-template-columns: 70vw 20vw;
+  bottom: 3vh;
+}
+
+#input {
+  height: var(--input-and-button-height);
+  border: 2px solid blue;
+  background-color: white;
+  border-radius: 20px;
+  overflow: scroll;
+}
+#input > input {
+  width: 70vw;
+  margin: 5px;
+  border: 0px solid white;
+  background-color: white;
+  color: black;
+  font-size: 1.2em;
+  outline: 0;
+}
+
+
+#button {
+  height: var(--input-and-button-height);
+  background-color: blue;
+  border-radius: 20px;
+  color: white;
+  font-size: 1.2em;
+  text-align: center;  
+}
+#button > p {
+  margin-top: 6px;
+}
+
+
+#name {
+  position: fixed;
+  z-index: 10;
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--background-color);
+  color: blue;
+  font-size: 2em;
+}
+
+#name > p {
+  color: black;
+}
+
+#name > input {
+  height: 2em;
+  width: 80vw;
+  font-size: 1.5em;
+  text-align: center;
+}
+
+#name > div {
+  margin-top: 40px;
+  padding-top: 20px;
+  height: 2em;
+  width: 80vw;
+  font-size: 1.2em;
+  background-color: blue;
+  border-radius: 40px;
+  color: white;
+}
+
+#remove {
+  position: absolute;
 }
